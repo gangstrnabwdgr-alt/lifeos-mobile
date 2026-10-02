@@ -1,0 +1,36 @@
+/* LifeOS X35 — AURA Chart Engine
+   Dependency-free, responsive, touch-friendly canvas charts.
+*/
+(()=>{
+'use strict';
+const fa=n=>Number(n||0).toLocaleString('fa-IR');
+const palette=['#9b7cff','#2ee6d0','#62d6ff','#ffb45e','#ff6f9d','#a78bfa'];
+const css=(el,p)=>getComputedStyle(el).getPropertyValue(p).trim();
+const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+class LifeChart{
+ constructor(canvas,cfg){this.canvas=canvas;this.cfg=cfg;this.dpr=Math.max(1,Math.min(2,devicePixelRatio||1));this.hover=null;this.resize= this.resize.bind(this);this.move=this.move.bind(this);this.leave=()=>{this.hover=null;this.draw()};this.canvas.addEventListener('pointermove',this.move,{passive:true});this.canvas.addEventListener('pointerleave',this.leave,{passive:true});this.ro=window.ResizeObserver?new ResizeObserver(this.resize):null;if(this.ro)this.ro.observe(canvas);else addEventListener('resize',this.resize,{passive:true});this.resize()}
+ resize(){if(!this.canvas||this.destroyed)return;const r=this.canvas.getBoundingClientRect();this.w=Math.max(280,Math.floor(r.width||620));this.h=Math.max(230,Math.floor(r.height||270));this.canvas.width=this.w*this.dpr;this.canvas.height=this.h*this.dpr;this.draw()}
+ destroy(){this.destroyed=true;if(this.ro)this.ro.disconnect();else removeEventListener('resize',this.resize);this.canvas.removeEventListener('pointermove',this.move);this.canvas.removeEventListener('pointerleave',this.leave)}
+ ctx(){const c=this.canvas,x=c.getContext('2d');x.setTransform(this.dpr,0,0,this.dpr,0,0);x.clearRect(0,0,this.w,this.h);return x}
+ text(x,s,px,py,o={}){x.save();x.fillStyle=o.color||'#7f8da4';x.font=`${o.weight||500} ${o.size||10}px Vazirmatn,Arial,sans-serif`;x.textAlign=o.align||'center';x.textBaseline=o.base||'middle';x.fillText(String(s),px,py);x.restore()}
+ round(x,y,w,h,r){const p=Math.min(r,w/2,h/2);const c=this._x;c.beginPath();c.moveTo(x+p,y);c.arcTo(x+w,y,x+w,y+h,p);c.arcTo(x+w,y+h,x,y+h,p);c.arcTo(x,y+h,x,y,p);c.arcTo(x,y,x+w,y,p);c.closePath()}
+ draw(){if(this.destroyed)return;const x=this._x=this.ctx(),type=this.cfg.type,data=this.cfg.data||{};x.fillStyle='rgba(0,0,0,0)';x.clearRect(0,0,this.w,this.h);if(type==='doughnut')this.doughnut(x,data);else this.cartesian(x,data,type)}
+ cartesian(x,data,type){const labels=data.labels||[],sets=data.datasets||[];const pad={l:54,r:18,t:34,b:46},W=this.w,H=this.h,iw=W-pad.l-pad.r,ih=H-pad.t-pad.b;
+ let max=0;sets.forEach(s=>(s.data||[]).forEach(v=>max=Math.max(max,Number(v)||0)));max=max||1;const nice=Math.pow(10,Math.floor(Math.log10(max)));max=Math.ceil(max/nice)*nice;const y=v=>pad.t+ih-(Number(v)||0)/max*ih;const xAt=i=>pad.l+(labels.length<=1?iw/2:iw*i/(labels.length-1));
+ // soft chart well
+ const grad=x.createLinearGradient(0,0,0,H);grad.addColorStop(0,'rgba(255,255,255,.025)');grad.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=grad;x.fillRect(pad.l,pad.t,iw,ih);
+ x.strokeStyle='#1c2737';x.lineWidth=1;for(let i=0;i<5;i++){const yy=pad.t+ih*i/4;x.beginPath();x.moveTo(pad.l,yy);x.lineTo(W-pad.r,yy);x.stroke();this.text(x,fa(Math.round(max*(1-i/4))),pad.l-10,yy,{align:'right',size:9,color:'#617087'})}
+ labels.forEach((lab,i)=>{const xx=xAt(i);this.text(x,String(lab).slice(5)||lab,xx,H-pad.b+22,{size:9,color:'#6f7d94'})});
+ if(!sets.some(s=>(s.data||[]).some(v=>Number(v)!==0))){this.text(x,'هنوز داده‌ای برای نمایش نیست',W/2,H/2,{size:12,color:'#66758c'});return}
+ if(type==='bar')this.bars(x,labels,sets,pad,iw,ih,y,xAt);else this.lines(x,labels,sets,pad,iw,ih,y,xAt);
+ let lx=pad.l;sets.forEach((s,si)=>{const label=s.label||'';x.fillStyle=palette[si%palette.length];this.round(lx,10,9,9,3);x.fill();this.text(x,label,lx+15,14,{align:'left',size:9,color:'#aeb8c8'});lx+=Math.max(80,label.length*7+30)});
+ if(this.hover){const h=this.hover;const xx=xAt(h.i);x.save();x.strokeStyle='rgba(255,255,255,.12)';x.setLineDash([4,5]);x.beginPath();x.moveTo(xx,pad.t);x.lineTo(xx,pad.t+ih);x.stroke();x.restore();this.tooltip(x,h,sets,xAt,y,pad)}
+ }
+ bars(x,labels,sets,pad,iw,ih,y,xAt){const n=labels.length||1,group=iw/n,gap=Math.min(10,group*.12),barW=Math.max(7,(group-gap*2)/Math.max(1,sets.length));sets.forEach((s,si)=>{(s.data||[]).forEach((v,i)=>{const val=Number(v)||0,xx=pad.l+i*group+gap+si*barW,yy=y(val),hh=pad.t+ih-yy;const g=x.createLinearGradient(0,yy,0,pad.t+ih);g.addColorStop(0,palette[si%palette.length]);g.addColorStop(1,palette[si%palette.length]+'55');x.fillStyle=g;this.round(xx,yy,Math.max(5,barW-4),Math.max(2,hh),6);x.fill()})})}
+ lines(x,labels,sets,pad,iw,ih,y,xAt){sets.forEach((s,si)=>{const vals=s.data||[];if(!vals.length)return;x.save();x.strokeStyle=palette[si%palette.length];x.lineWidth=2.7;x.lineJoin='round';x.lineCap='round';x.beginPath();vals.forEach((v,i)=>{const xx=xAt(i),yy=y(v);i?x.lineTo(xx,yy):x.moveTo(xx,yy)});x.stroke();if(vals.length>1){const area=x.createLinearGradient(0,pad.t,0,pad.t+ih);area.addColorStop(0,palette[si%palette.length]+'24');area.addColorStop(1,palette[si%palette.length]+'00');x.lineTo(xAt(vals.length-1),pad.t+ih);x.lineTo(xAt(0),pad.t+ih);x.closePath();x.fillStyle=area;x.fill()}x.restore();vals.forEach((v,i)=>{const xx=xAt(i),yy=y(v);x.fillStyle='#0d141e';x.beginPath();x.arc(xx,yy,5,0,Math.PI*2);x.fill();x.fillStyle=palette[si%palette.length];x.beginPath();x.arc(xx,yy,3,0,Math.PI*2);x.fill()})})}
+ move(e){if(this.destroyed)return;const r=this.canvas.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;const labels=this.cfg.data?.labels||[];if(!labels.length){return}const pad={l:54,r:18,t:34,b:46},iw=this.w-pad.l-pad.r,ih=this.h-pad.t-pad.b;let i=labels.length<=1?0:clamp(Math.round((mx-pad.l)/(iw/(labels.length-1))),0,labels.length-1);this.hover={i,mx,my};this.draw()}
+ tooltip(x,h,sets,xAt,y,pad){const i=h.i,vals=sets.map(s=>Number((s.data||[])[i])||0);const lines=sets.map((s,j)=>`${s.label||'مقدار'}: ${fa(vals[j])}`);const width=Math.max(130,...lines.map(t=>t.length*6.2+24)),height=18+lines.length*17;let bx=xAt(i)+12,by=pad.t+8;if(bx+width>this.w-8)bx=xAt(i)-width-12;if(h.my>this.h/2)by=Math.max(8,h.my-height-12);x.save();x.fillStyle='rgba(8,12,18,.94)';x.strokeStyle='rgba(255,255,255,.1)';x.lineWidth=1;this.round(bx,by,width,height,10);x.fill();x.stroke();this.text(x,String((this.cfg.data.labels||[])[i]),bx+12,by+13,{align:'left',size:9,color:'#8997ad'});lines.forEach((t,j)=>this.text(x,t,bx+12,by+31+j*17,{align:'left',size:10,color:palette[j%palette.length]||'#fff',weight:600})) ;x.restore()}
+ doughnut(x,data){const vals=(data.datasets?.[0]?.data||[]).map(Number),total=vals.reduce((a,b)=>a+b,0)||0,cx=this.w/2,cy=this.h/2,r=Math.min(this.w,this.h)*.32;if(!total){this.text(x,'داده‌ای نیست',cx,cy,{size:12});return}let a=-Math.PI/2;vals.forEach((v,i)=>{const b=a+v/total*Math.PI*2;const g=x.createLinearGradient(0,0,this.w,this.h);g.addColorStop(0,palette[i%palette.length]);g.addColorStop(1,palette[(i+1)%palette.length]);x.beginPath();x.moveTo(cx,cy);x.arc(cx,cy,r,a,b);x.closePath();x.fillStyle=g;x.fill();a=b});x.globalCompositeOperation='destination-out';x.beginPath();x.arc(cx,cy,r*.58,0,Math.PI*2);x.fill();x.globalCompositeOperation='source-over';this.text(x,fa(total),cx,cy-5,{size:21,weight:800,color:'#edf2ff'});this.text(x,'مجموع',cx,cy+19,{size:9})}
+}
+window.Chart=LifeChart;window.Chart.defaults={animation:{duration:350},font:{family:'Vazirmatn,sans-serif'}};
+})();

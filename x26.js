@@ -1,0 +1,15 @@
+/* AURA X26 — micro-interactions, live status, magnetic feel */
+(()=>{
+ const $=s=>document.querySelector(s);
+ const orbit=document.createElement('div'); orbit.className='a26-orbit'; orbit.innerHTML='<i></i><b>AURA ONLINE</b><span class="a26-dot"></span><span id="a26Time">--:--</span><span class="a26-dot"></span><span id="a26Score">۰٪</span>'; document.body.appendChild(orbit);
+ const hint=document.createElement('div'); hint.className='a26-command-hint'; hint.innerHTML='<kbd>⌘</kbd> + <kbd>K</kbd> ثبت سریع&nbsp;&nbsp; <kbd>⌘</kbd> + <kbd>/</kbd> فرمان‌ها'; document.body.appendChild(hint);
+ const cur=document.createElement('div');cur.className='a26-cursor';document.body.appendChild(cur);
+ const fine=matchMedia('(pointer:fine)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches;
+ if(fine){document.body.classList.add('a26-pointer');let tx=0,ty=0,cx=0,cy=0;addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY});const loop=()=>{cx+=(tx-cx)*.18;cy+=(ty-cy)*.18;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(loop)};loop();document.querySelectorAll('button,.stat,.panel,.hero,.priority-row').forEach(el=>el.addEventListener('pointerenter',()=>{cur.style.width='34px';cur.style.height='34px';cur.style.borderColor='rgba(79,240,210,.75)' }));document.querySelectorAll('button,.stat,.panel,.hero,.priority-row').forEach(el=>el.addEventListener('pointerleave',()=>{cur.style.width='18px';cur.style.height='18px';cur.style.borderColor='rgba(167,139,250,.7)'}));addEventListener('click',e=>{for(let i=0;i<5;i++){const s=document.createElement('i');s.className='a26-spark';s.style.left=e.clientX+'px';s.style.top=e.clientY+'px';s.style.setProperty('--dx',(Math.random()*70-35)+'px');s.style.setProperty('--dy',(Math.random()*70-35)+'px');document.body.appendChild(s);setTimeout(()=>s.remove(),700)}})}
+ function fa(n){try{return new Intl.NumberFormat('fa-IR').format(n)}catch{return String(n)}}
+ function tick(){const d=new Date();const t=d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});const e=$('#a26Time');if(e)e.textContent=t;const s=$('#score');const sc=s?.textContent?.replace(/[^0-9]/g,'');const out=$('#a26Score');if(out)out.textContent=fa(Math.min(100,+(sc||0)))+'٪'} tick();setInterval(tick,1000);
+ // subtle magnetic pull on actionable controls
+ if(fine){document.querySelectorAll('.primary,.secondary,.icon-btn').forEach(el=>{el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();const x=(e.clientX-(r.left+r.width/2))/r.width;const y=(e.clientY-(r.top+r.height/2))/r.height;el.style.transform=`translate(${x*5}px,${y*4}px) translateY(-2px)`});el.addEventListener('pointerleave',()=>el.style.transform='')})}
+ // command shortcuts without interfering with existing handlers
+ addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){const q=$('#quickAdd');if(q){e.preventDefault();q.click()}}if((e.metaKey||e.ctrlKey)&&e.key==='/'){const c=$('#commandBtn');if(c){e.preventDefault();c.click()}}});
+})();

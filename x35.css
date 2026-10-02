@@ -1,0 +1,7 @@
+/* X35 chart polish — no external dependencies */
+body.x35-on .panel:has(canvas){min-height:326px;background:linear-gradient(145deg,rgba(18,24,35,.98),rgba(10,15,23,.98));box-shadow:0 20px 70px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.025)}
+body.x35-on canvas{display:block;width:100%!important;height:258px!important;min-height:258px;direction:ltr;touch-action:none;cursor:crosshair}
+body.x35-on .panel:has(canvas) .panel-head{margin-bottom:10px}
+body.x35-on .panel:has(canvas) .panel-head h3{letter-spacing:-.025em}
+body.x35-on .panel:has(canvas) .panel-head:after{content:'LIVE';font-size:8px;letter-spacing:.12em;color:#63e7d4;background:rgba(46,230,208,.08);border:1px solid rgba(46,230,208,.12);border-radius:999px;padding:4px 7px;margin-right:auto}
+@media(max-width:760px){body.x35-on canvas{height:230px!important;min-height:230px}body.x35-on .panel:has(canvas){min-height:296px}}

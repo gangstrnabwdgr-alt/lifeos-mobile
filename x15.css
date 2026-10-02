@@ -1,0 +1,21 @@
+/* X15 APEX — performance */
+.panel,.stat,.hero,.orbit-card,.lux-chip,.lux-mini,.focus-strip,.x11-apex-card,.x14-dock,.cards>*{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.panel,.stat,.orbit-card{contain:layout paint}
+.x15-hidden *,.x15-hidden *::before,.x15-hidden *::after{animation-play-state:paused!important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+/* X15 APEX — look & feel */
+body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;background:radial-gradient(40% 40% at 20% 20%,rgba(120,80,255,.20),transparent 70%),radial-gradient(35% 35% at 82% 28%,rgba(0,230,200,.13),transparent 70%),radial-gradient(40% 40% at 60% 92%,rgba(255,80,180,.11),transparent 70%);animation:x15drift 30s ease-in-out infinite alternate;will-change:transform}
+.page.active{animation:x15in .38s cubic-bezier(.2,.8,.2,1)}
+.panel,.stat,.orbit-card{transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,border-color .25s}
+.panel:hover,.stat:hover,.orbit-card:hover{transform:translateY(-3px);border-color:rgba(197,156,255,.38);box-shadow:0 18px 50px rgba(0,0,0,.35),0 0 38px rgba(197,156,255,.12)}
+button.primary,.primary{position:relative;overflow:hidden;background-image:linear-gradient(135deg,#a98bff,#6e52ec 55%,#35d9c0);box-shadow:0 8px 26px rgba(130,100,255,.35);transition:transform .2s,box-shadow .2s}
+button.primary:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(130,100,255,.5)}
+button.primary:active{transform:scale(.97)}
+button.primary::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.28) 50%,transparent 65%);transform:translateX(-120%);transition:transform .6s}
+button.primary:hover::after{transform:translateX(120%)}
+:focus-visible{outline:2px solid #54f5d7;outline-offset:2px;border-radius:8px}
+*{scrollbar-width:thin;scrollbar-color:#3a2f66 transparent}
+::selection{background:rgba(197,156,255,.35)}
+.score strong,.x11-score-ring b{background:linear-gradient(90deg,#c59cff,#54f5d7);-webkit-background-clip:text;background-clip:text;color:transparent}
+@keyframes x15drift{to{transform:translate3d(4%,3%,0) scale(1.08)}}
+@keyframes x15in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}

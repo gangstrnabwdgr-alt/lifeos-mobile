@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LifeOS — AURA NEXUS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="x22.css">
+<link rel="stylesheet" href="x23.css">
+<link rel="stylesheet" href="x24.css">
+<script src="x15.js"></script>
+<link rel="stylesheet" href="x14.css">
+<link rel="stylesheet" href="x15.css">
+<link rel="stylesheet" href="x16.css">
+<link rel="stylesheet" href="x17.css">
+<link rel="stylesheet" href="x18.css">
+<link rel="stylesheet" href="x19.css">
+<link rel="stylesheet" href="x20.css">
+<link rel="stylesheet" href="language.css">
+<link rel="stylesheet" href="x25.css">
+<link rel="stylesheet" href="x26.css">
+<link rel="stylesheet" href="x27.css">
+<link rel="stylesheet" href="x33.css">
+<link rel="stylesheet" href="x35.css">
+<link rel="stylesheet" href="x36.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LifeOS">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#0b1020"><link rel="stylesheet" href="x37.css"></head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-icon">L</div><div><b>LifeOS</b><span>Personal Dashboard</span></div></div>
+  <button class="profile-mini" id="profileButton"><div class="avatar avatar-side" id="sideAvatar">🌱</div><div class="profile-mini-text"><b id="profileName">ثبت اطلاعات</b><span id="profileMeta">پروفایل</span></div><span>⚙</span></button>
+  <nav>
+    <button class="nav active" data-page="dashboard">◈ <span>داشبورد</span></button>
+    <button class="nav" data-page="money">₿ <span>مالی و بودجه</span></button>
+    <button class="nav" data-page="time">◷ <span>زمان</span></button>
+    <button class="nav" data-page="study">⌁ <span>مطالعه</span></button>
+    <button class="nav" data-page="goals">◎ <span>اهداف</span></button>
+    <button class="nav" data-page="custom">✦ <span>ثبت‌های من</span></button>
+    <button class="nav" data-page="calendar">▦ <span>تقویم</span></button>
+  </nav>
+  <div class="side-bottom">
+    <button id="exportBtn">⇩ پشتیبان‌گیری</button>
+    <label class="import">⇧ بازیابی<input id="importFile" type="file" accept=".json"></label>
+    <button id="resetBtn" class="danger">پاک‌سازی اطلاعات</button>
+  </div>
+</aside>
+
+<main>
+<header>
+  <div><div class="eyebrow">داشبورد شخصی</div><h1 id="pageTitle">داشبورد</h1></div>
+  <div class="header-actions"><div class="header-time"><div class="today" id="today"></div><div class="system-clock" id="systemClock">--:--:--</div></div><button class="icon-btn vibe-toggle" id="vibeToggle" title="حالت سینمایی">◐</button><button class="icon-btn x24-search-btn" id="globalSearchBtn" title="جستجو">⌕</button><button class="icon-btn x24-theme-btn" id="themeBtn" title="ظاهر و رنگ">◒</button><button class="icon-btn" id="commandBtn" title="فرمان‌ها">⌘</button><button class="primary" id="quickAdd">＋ ثبت سریع <kbd>Ctrl K</kbd></button></div>
+</header>
+
+<section id="dashboard" class="page active">
+  <div class="hero hero-ultra">
+    <div><span class="pill">وضعیت امروز</span><h2 id="greeting">سلام 👋</h2><p>پیشرفتت را در پول، زمان و مطالعه یکجا ببین.</p><div class="level-line"><span class="avatar avatar-hero" id="avatarEmoji">🌱</span><span id="levelText">سطح ۱ · شروع مسیر</span></div></div>
+    <div class="score"><span>امتیاز امروز</span><strong id="score">0</strong><small>/ 100</small></div>
+  </div>
+
+  <div class="x11-apex-card" id="x11ApexCard">
+    <div class="x11-apex-head"><div><span class="x11-kicker">APEX INTELLIGENCE</span><h3>نبض زندگی تو</h3><p>یک نگاه سریع به عادت‌ها، پول، تمرکز و روند ۷ روز اخیر.</p></div><div class="x11-score-ring" id="x11ScoreRing"><b id="x11Score">۰</b><small>امتیاز</small></div></div>
+    <div class="x11-metrics"><div><span>🔥 پیوستگی</span><b id="x11Streak">۰ روز</b></div><div><span>🎯 اهداف</span><b id="x11Goals">۰٪</b></div><div><span>💎 پس‌انداز</span><b id="x11NetSave">۰</b></div><div><span>📚 مطالعه</span><b id="x11WeekStudy">۰س</b></div></div>
+    <div class="x11-heat" id="x11Heat"></div>
+    <div class="x11-apex-actions"><button id="x11Achieve">🏆 دستاوردها</button><button id="x11Focus" class="hot">⚡ شروع Focus</button><button id="x11Quick">＋ ثبت سریع</button></div>
+  </div>
+
+  <div class="lux-hud" id="luxHud"><div class="lux-chip"><span class="lux-chip-icon">✦</span><div><small>MISSION</small><b id="dailyMission">امروز یک قدم جلوتر</b></div></div><div class="lux-mini"><span>امروز</span><b id="hudTodayScore">۰</b></div><div class="lux-mini"><span>پیوستگی</span><b id="hudStreak">۰</b></div><div class="lux-mini"><span>پس‌انداز</span><b id="hudSaving">۰</b></div></div>
+  <div class="focus-strip"><div><span>⚡ حالت تمرکز</span><b id="focusMessage">امروز فقط یک قدم کوچک بردار.</b></div><div class="pulse-meter"><span>پالس امروز</span><i id="pulseBar"></i><b id="pulseText">۰٪</b></div><button class="secondary small" id="focusQuick">شروع ثبت سریع</button></div>
+  <div class="orbit-row"><div class="orbit-card"><span>✦ انرژی روز</span><strong id="energyValue">۰٪</strong><small id="energyText">در حال اندازه‌گیری...</small></div><div class="orbit-card"><span>🔥 زنجیره فعالیت</span><strong id="activityStreak">۰ روز</strong><small>بر اساس ثبت‌های اخیر</small></div><div class="orbit-card"><span>💎 ارزش ثبت‌ها</span><strong id="lifeValue">۰</strong><small>تعداد فعالیت‌های ثبت‌شده</small></div></div>
+  <section class="prime-cockpit" id="primeCockpit">
+    <div class="prime-head">
+      <div><span class="prime-kicker">NEXUS PRIME • MY DAY</span><h3>امروز رو خودت طراحی کن.</h3><p>سه اولویت، یک حال‌و‌هوا و یک تصمیم کوچک. همین.</p></div>
+      <div class="prime-date" id="primeDate">امروز</div>
+    </div>
+    <div class="prime-grid">
+      <div class="prime-priorities">
+        <div class="prime-label">🎯 سه اولویت امروز</div>
+        <div class="priority-row"><button class="priority-check" data-p="0">○</button><input data-priority="0" placeholder="مهم‌ترین کار امروز..." maxlength="80"></div>
+        <div class="priority-row"><button class="priority-check" data-p="1">○</button><input data-priority="1" placeholder="کار دوم..." maxlength="80"></div>
+        <div class="priority-row"><button class="priority-check" data-p="2">○</button><input data-priority="2" placeholder="کار سوم..." maxlength="80"></div>
+      </div>
+      <div class="prime-side">
+        <div class="prime-label">⚡ انرژی امروز</div>
+        <div class="energy-pills" id="primeEnergy">
+          <button data-energy="20">😴</button><button data-energy="40">🌥️</button><button data-energy="60">🙂</button><button data-energy="80">🔥</button><button data-energy="100">🚀</button>
+        </div>
+        <div class="prime-note"><span>💡</span><b id="primeAdvice">یک کار مهم را تمام کن؛ بقیه بعداً.</b></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cards">
+    <div class="stat"><span>موجودی</span><strong id="balance">۰</strong><em id="balanceSub">—</em></div>
+    <div class="stat"><span>هزینه این ماه</span><strong id="monthExpense">۰</strong><em id="expenseSub">—</em></div>
+    <div class="stat"><span>مطالعه امروز</span><strong id="todayStudy">۰</strong><em>ساعت</em></div>
+    <div class="stat"><span>زمان پرت امروز</span><strong id="todayWaste">۰</strong><em>ساعت</em></div>
+  </div>
+  <div class="panel monthly-report" id="monthlyReport"></div>
+  <div class="grid two">
+    <div class="panel"><div class="panel-head"><h3>درآمد و هزینه</h3><span>۷ روز اخیر</span></div><canvas id="moneyChart"></canvas></div>
+    <div class="panel"><div class="panel-head"><h3>درآمد و هزینه این ماه</h3><span>این ماه</span></div><canvas id="categoryChart"></canvas></div>
+  </div>
+  <div class="grid two">
+    <div class="panel"><div class="panel-head"><h3>پیشرفت اهداف</h3><button class="link" data-go="goals">همه</button></div><div id="goalMini"></div></div>
+    <div class="panel"><div class="panel-head"><h3>عملکرد ۷ روز اخیر</h3></div><canvas id="productivityChart"></canvas></div>
+  </div>
+</section>
+
+<section id="money" class="page">
+  <div class="section-actions"><div><h2>مالی و بودجه</h2><p>درآمد، بودجه، هزینه‌ها و پس‌اندازت را کنترل کن.</p></div><button class="primary" data-modal="expense">＋ هزینه</button><button class="secondary" data-modal="income">＋ درآمد</button><button class="secondary" data-modal="saving">＋ پس‌انداز</button></div>
+  <div class="cards"><div class="stat"><span>بودجه ماهانه</span><strong id="budgetValue">۰</strong><em id="budgetRemain">—</em></div><div class="stat"><span>کل درآمد</span><strong id="incomeValue">۰</strong><em>ثبت‌شده</em></div><div class="stat"><span>کل هزینه</span><strong id="expenseValue">۰</strong><em>ثبت‌شده</em></div><div class="stat"><span>نرخ پس‌انداز</span><strong id="savingRate">۰٪</strong><em>این ماه</em></div></div>
+  <div class="grid two"><div class="panel"><div class="panel-head"><h3>بودجه</h3><button class="primary small" data-modal="budget">✎ تغییر بودجه</button></div><div class="budget-ring"><div><b id="budgetPercent">0%</b><span>مصرف شده</span></div></div></div><div class="panel"><div class="panel-head"><h3>تراکنش‌های اخیر</h3></div><div id="transactions"></div></div></div>
+  <div class="panel savings-panel"><div class="panel-head"><div><h3>پس‌انداز</h3><span>میزان پس‌انداز، مصرف‌شده، موجودی و هدف پس‌انداز</span></div><div class="manage-actions"><button class="secondary small" data-modal="savingGoal">🎯 هدف پس‌انداز</button><button class="primary small" data-modal="saving">＋ ثبت عملیات</button></div></div><div class="cards savings-cards"><div class="stat"><span>کل پس‌انداز</span><strong id="savingDeposited">۰ تومان</strong><em>واریز شده</em></div><div class="stat"><span>مصرف‌شده</span><strong id="savingSpent">۰ تومان</strong><em>برداشت از پس‌انداز</em></div><div class="stat"><span>موجودی پس‌انداز</span><strong id="savingBalance">۰ تومان</strong><em>مانده فعلی</em></div></div><div class="saving-goal-box"><div class="saving-goal-head"><div><span class="goal-label">هدف فعلی</span><h3 id="savingGoalName">هدف پس‌انداز تنظیم نشده</h3><div class="muted" id="savingGoalDeadline">بدون ددلاین</div></div><div class="saving-goal-percent" id="savingGoalPercent">۰٪</div></div><div class="saving-progress"><i id="savingGoalBar"></i></div><div class="saving-goal-meta"><span>پس‌انداز فعلی: <b id="savingGoalCurrent">۰ تومان</b></span><span>هدف: <b id="savingGoalTarget">—</b></span><span>باقی‌مانده: <b id="savingGoalRemaining">—</b></span></div><div class="saving-goal-status" id="savingGoalStatus">یک هدف تعیین کن تا پیشرفتت را ببینی</div></div><div id="savingsList"></div></div>
+</section>
+
+<section id="time" class="page">
+  <div class="section-actions"><div><h2>مدیریت زمان</h2><p>زمان مفید و زمان پرتت را ثبت و تحلیل کن.</p></div><button class="primary" data-modal="waste">＋ ثبت زمان پرت</button></div>
+  <div class="cards"><div class="stat"><span>زمان پرت امروز</span><strong id="wasteToday">۰</strong><em>ساعت</em></div><div class="stat"><span>زمان پرت این هفته</span><strong id="wasteWeek">۰</strong><em>ساعت</em></div><div class="stat"><span>هدف روزانه مفید</span><strong id="productiveTarget">۸</strong><em>ساعت</em></div></div>
+  <div class="grid two"><div class="panel"><div class="panel-head"><h3>روند زمان پرت</h3></div><canvas id="wasteChart"></canvas></div><div class="panel"><div class="panel-head"><h3>دلایل زمان پرت</h3></div><div id="wasteReasons"></div></div></div><div class="panel manage-panel"><div class="panel-head"><h3>ثبت‌های زمان پرت</h3><button class="primary small" data-modal="waste">＋ ثبت جدید</button></div><div id="wasteList"></div></div>
+</section>
+
+<section id="study" class="page">
+  <div class="section-actions"><div><h2>مطالعه</h2><p>جلسات مطالعه و هدف روزانه‌ات را مدیریت کن.</p></div><button class="primary" data-modal="study">＋ ثبت مطالعه</button></div>
+  <div class="cards"><div class="stat"><span>مطالعه امروز</span><strong id="studyToday">۰</strong><em>ساعت</em></div><div class="stat"><span>این هفته</span><strong id="studyWeek">۰</strong><em>ساعت</em></div><div class="stat"><span>رکورد پیوستگی</span><strong id="streak">۰</strong><em>روز</em></div><div class="stat"><span>هدف روزانه</span><strong id="studyTarget">۳</strong><em>ساعت</em></div></div>
+  <div class="grid two"><div class="panel"><div class="panel-head"><h3>ساعت مطالعه</h3></div><canvas id="studyChart"></canvas></div><div class="panel"><div class="panel-head"><h3>آخرین جلسات</h3></div><div id="studyList"></div></div></div><div class="panel manage-panel"><div class="panel-head"><h3>همه جلسات مطالعه</h3><button class="primary small" data-modal="study">＋ جلسه جدید</button></div><div id="studyManage"></div></div>
+</section>
+
+<section id="goals" class="page">
+  <div class="section-actions"><div><h2>اهداف</h2><p>هدف تعریف کن، پیشرفت ثبت کن و deadline داشته باش.</p></div><button class="primary" data-modal="goal">＋ هدف جدید</button></div>
+  <div id="goalsList" class="goal-grid"></div>
+</section>
+
+<section id="custom" class="page">
+  <div class="section-actions"><div><h2>ثبت‌های من</h2><p>هر چیزی که می‌خواهی به برنامه اضافه کن؛ محدود به هزینه، مطالعه و زمان پرت نیستی.</p></div><button class="primary" onclick="openCustomTypeModal()">＋ ساخت نوع ثبت</button></div>
+  <div class="panel manage-panel"><div class="panel-head"><h3>انواع ثبت سفارشی</h3><span>نام، واحد و آیکون دلخواه</span></div><div id="customTypes"></div></div>
+  <div class="panel manage-panel"><div class="panel-head"><h3>آخرین ثبت‌های سفارشی</h3><span>ویرایش و حذف آزاد</span></div><div id="customEntries"></div></div>
+</section>
+
+<section id="calendar" class="page">
+  <div class="section-actions"><div><h2>تقویم فعالیت</h2><p>رویدادهای ثبت‌شده را بر اساس روز ببین.</p></div></div>
+  <div class="calendar-head"><button id="prevMonth">‹</button><h2 id="calTitle"></h2><button id="nextMonth">›</button></div>
+  <div class="calendar" id="calendarGrid"></div>
+</section>
+</main>
+</div>
+
+
+<div class="x24-search-overlay" id="x24SearchOverlay" aria-hidden="true">
+  <div class="x24-search-box">
+    <div class="x24-search-head"><div><span>LIFEOS SEARCH</span><h2>هر چیزی رو پیدا کن.</h2></div><button id="x24SearchClose">×</button></div>
+    <div class="x24-search-input"><span>⌕</span><input id="x24SearchInput" placeholder="جستجو در اهداف، هزینه‌ها، مطالعه، ثبت‌ها و صفحات…" autocomplete="off"><kbd>ESC</kbd></div>
+    <div class="x24-search-meta"><span id="x24SearchCount">جستجو کن تا نتایج نمایش داده شوند</span><span>↑↓ انتخاب · Enter باز کردن</span></div>
+    <div id="x24SearchResults" class="x24-search-results"></div>
+  </div>
+</div>
+<div class="x24-theme-overlay" id="x24ThemeOverlay" aria-hidden="true">
+  <div class="x24-theme-box">
+    <div class="x24-theme-head"><div><span>LIFEOS STUDIO</span><h2>رنگ دنیای خودت رو انتخاب کن.</h2></div><button id="x24ThemeClose">×</button></div>
+    <div class="x24-theme-preview"><div class="x24-orb"></div><div><b>Personal Atmosphere</b><span>پس‌زمینه، هاله و پنل‌ها با یک انتخاب هماهنگ می‌شوند.</span></div></div>
+    <div class="x24-theme-grid" id="x24ThemePresets"></div>
+    <div class="x24-theme-custom"><label>رنگ اصلی پس‌زمینه</label><input type="color" id="x24BgColor" value="#080b12"><button id="x24ApplyBg" class="primary">اعمال رنگ</button><button id="x24ResetTheme" class="secondary">بازنشانی</button></div>
+  </div>
+</div>
+
+<div class="modal" id="modal"><div class="modal-box"><button class="close" id="closeModal">×</button><h2 id="modalTitle"></h2><form id="modalForm"></form></div></div>
+<div class="command-overlay" id="commandOverlay"><div class="command-box"><div class="command-head"><div><span>LifeOS COMMAND</span><b>مرکز فرمان</b></div><button class="close" id="closeCommand">×</button></div><div class="command-search"><span>⌕</span><input id="commandInput" placeholder="مثلاً: پس‌انداز، مطالعه، هدف، مالی…" autocomplete="off"></div><div class="command-grid" id="commandGrid"></div><div class="command-foot"><kbd>Esc</kbd><span>بستن</span><kbd>↑↓</kbd><span>انتخاب</span><kbd>Enter</kbd><span>اجرا</span></div></div></div><div class="toast" id="toast"></div>
+<script src="x35-charts.js"></script>
+<script src="app.js"></script>
+<script src="x11.js"></script>
+<script src="x12.js"></script>
+<script src="x13.js"></script>
+<script src="x14.js"></script>
+<script src="x16.js"></script>
+<script src="x17.js"></script>
+<script src="x18.js"></script>
+<script src="x19.js"></script>
+<script src="x20.js"></script>
+<script src="language.js"></script>
+<script src="x22.js"></script>
+<script src="x23.js"></script>
+<script src="x24.js"></script>
+<script src="x25.js"></script>
+<script src="x26.js"></script>
+<script src="x27.js"></script>
+<script src="x33.js"></script>
+<script src="x35.js"></script>
+<script src="x36.js"></script>
+<script src="x37.js"></script>
+</body></html>
