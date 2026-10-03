@@ -29,7 +29,7 @@ async function push(){if(!cloud.url||!cloud.key||!cloud.token)return false;let u
 async function pull(){if(!cloud.url||!cloud.key||!cloud.token)return false;let user=JSON.parse(atob(cloud.token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));let res=await fetch(cloud.url+'/rest/v1/lifeos_state?select=state,updated_at&user_id=eq.'+encodeURIComponent(user.sub),{headers:{apikey:cloud.key,Authorization:'Bearer '+cloud.token}});if(!res.ok)return false;let rows=await res.json();if(rows[0]?.state){localStorage.setItem(KEY,JSON.stringify(rows[0].state));return true}return false}
 let last='';setInterval(()=>{let s=localStorage.getItem(KEY)||'';if(s!==last){last=s;if(cloud.token)push().catch(()=>{})}},2500);
 window.addEventListener('storage',e=>{if(e.key===KEY&&e.newValue){try{if(typeof renderAll==='function')renderAll()}catch{}}});
-if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+
 window.lifeosCloud={push,pull,open};
 render();
 })();
